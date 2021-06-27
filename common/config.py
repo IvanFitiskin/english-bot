@@ -19,3 +19,15 @@ class Config(object):
         )
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    RUN_IN_DOCKER = os.getenv('RUN_IN_DOCKER', False)
+
+    if RUN_IN_DOCKER:
+        SERVICE_HOST = 'http://english-bot'
+    else:
+        SERVICE_HOST = 'http://localhost'
+
+    SERVICE_PORT = '8000'
+    SERVICE_URL = '{}:{}'.format(
+        SERVICE_HOST, SERVICE_PORT,
+    )

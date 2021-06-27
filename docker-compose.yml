@@ -4,7 +4,10 @@ services:
   backendpy3:
     build:
       context: ./
-      dockerfile: services/backendpy3/Dockerfile
+      dockerfile: services/backend_py3/Dockerfile
+    volumes:
+      - ./common:/backend_py3/common:rw
+      - ./services/backend_py3:/english-bot/backend_py3:rw
     environment:
       DB_HOST: db
       DB_PORT: 5432
@@ -14,8 +17,7 @@ services:
       elastic:
         condition: service_healthy
     ports:
-      - "5000:5000"
-    hostname: dcbackend
+      - "8000:8000"
 
   db:
     image: postgres
