@@ -2,7 +2,7 @@ import connexion
 
 from flask_cors import CORS
 
-from backendpy3.models.common import db
+from backend_py3.models.common import db
 
 app = connexion.App(__name__)
 logger = app.app.logger
