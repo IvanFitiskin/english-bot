@@ -2,7 +2,8 @@ import connexion
 
 from flask_cors import CORS
 
-from backend_py3.models.common import db
+from backend_py3.src.models.common import db
+from backend_py3.src.utils.init_dictionary import added_new_english_word
 
 app = connexion.App(__name__)
 logger = app.app.logger
@@ -25,5 +26,7 @@ def create_app():
     db.session.commit()
     db.create_all()
     db.session.commit()
+
+    added_new_english_word('I')
 
     return application
