@@ -1,0 +1,15 @@
+openapi: "3.0.0"
+info:
+  description: English bot backend
+  version: 1.0.0
+  title: English bot backend
+
+paths:
+  /ping:
+    get:
+      description: Ручка с пингом
+      operationId: backend_py3.controllers.common.ping
+      responses:
+        '200':
+          description: OK
+          content: {}

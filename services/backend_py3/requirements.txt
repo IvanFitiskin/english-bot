@@ -1,0 +1,7 @@
+connexion == 2.4.0
+flask >= 1.1.1
+flask-script >= 2.0.6
+Flask-Cors >= 3.0.8
+Flask-Migrate >= 2.5.2
+Flask-SQLAlchemy >= 2.4.1
+psycopg2 >= 2.8.4

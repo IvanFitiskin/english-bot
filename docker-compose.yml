@@ -1,0 +1,34 @@
+version: "2.1"
+
+services:
+  backendpy3:
+    build:
+      context: ./
+      dockerfile: services/backend_py3/Dockerfile
+    volumes:
+      - ./common:/backend_py3/common:rw
+      - ./services/backend_py3:/english-bot/backend_py3:rw
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+    depends_on:
+      db:
+        condition: service_healthy
+      elastic:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: 12345678
+    ports:
+      - "54320:5432"
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
