@@ -8,7 +8,7 @@ paths:
   /ping:
     get:
       description: Ручка с пингом
-      operationId: backend_py3.controllers.common.ping
+      operationId: backend_py3.src.controllers.common.ping
       responses:
         '200':
           description: OK
