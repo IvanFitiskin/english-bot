@@ -12,13 +12,15 @@ class English(db.Model):
         autoincrement=True
     )
     word = db.Column(db.String(80))
+    transcription = db.Column(db.String(80))
 
     russian_link = db.relationship(
         'Russian', uselist=True, backref='english',
     )
 
-    def __init__(self, word: str):
+    def __init__(self, word: str, transcription: str):
         self.word = word
+        self.transcription = transcription
 
 
 class Russian(db.Model):
