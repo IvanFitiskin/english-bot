@@ -2,6 +2,7 @@ FROM python:3.7
 
 COPY ./services/backend_py3 /english-bot/backend_py3
 COPY ./common /english-bot/common
+COPY ./data /english-bot/data
 
 RUN pip3 install -r /english-bot/backend_py3/requirements.txt
 
