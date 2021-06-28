@@ -3,14 +3,13 @@ import connexion
 from flask_cors import CORS
 
 from backend_py3.src.models.common import db
-from backend_py3.src.utils.init_dictionary import added_new_english_word, added_new_russian_word
+from backend_py3.src.utils.init_dictionary import create_dictionary
 
 app = connexion.App(__name__)
 logger = app.app.logger
 
 
 def create_app():
-    print(app.get_root_path())
     app.add_api(
         'swagger.yaml', validate_responses=True, strict_validation=True,
     )
@@ -27,8 +26,7 @@ def create_app():
     db.create_all()
     db.session.commit()
 
-    # TODO - убрать этот код после создания нормальных скриптов для добавления слов
-    added_new_english_word('I')
-    added_new_russian_word('Я', 'I')
+    PRODUCTION_DATA_PATH = application.config.get('PRODUCTION_DATA_PATH')
+    create_dictionary(PRODUCTION_DATA_PATH)
 
     return application
