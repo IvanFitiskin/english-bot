@@ -1,4 +1,5 @@
 import connexion
+import os
 
 from flask_cors import CORS
 
@@ -27,6 +28,10 @@ def create_app():
     db.session.commit()
 
     PRODUCTION_DATA_PATH = application.config.get('PRODUCTION_DATA_PATH')
-    create_dictionary(PRODUCTION_DATA_PATH)
+
+    for root, dirs, files in os.walk(PRODUCTION_DATA_PATH):
+        for filename in files:
+            path = os.path.join(PRODUCTION_DATA_PATH, filename)
+            create_dictionary(path)
 
     return application
