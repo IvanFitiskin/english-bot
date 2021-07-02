@@ -13,3 +13,35 @@ paths:
         '200':
           description: OK
           content: {}
+
+  /v1/english:
+    get:
+      description: Отдать все английские слова пользователю
+      operationId: backend_py3.src.controllers.dictionary.get_english_words
+      parameters:
+        - in: query
+          name: page
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - data
+                  - total_records
+                  - message
+                properties:
+                  data:
+                    type: array
+                    description: Список слов
+                  total_records:
+                    type: integer
+                    description: Количество слов всего
+                  message:
+                    type: string
+                    description: Короткий ответ пользователю
