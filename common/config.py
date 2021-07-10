@@ -1,5 +1,7 @@
 import os
 
+from common.secret import SECRET_TG_BOT_TOKEN
+
 
 class Config(object):
     POSTGRES_HOST = os.getenv('DB_HOST', 'localhost')
@@ -44,3 +46,5 @@ class Config(object):
             'production',
             'airport.json',
         )
+
+    TG_BOT_TOKEN = SECRET_TG_BOT_TOKEN
