@@ -1,0 +1,68 @@
+{
+  "subject": {
+    "english": "airport",
+    "russian": "аэропорт"
+  },
+  "words": [
+    {
+      "english": "plane",
+      "transcription": "[ pleɪn ]",
+      "russian": ["самолет"]
+    },
+    {
+      "english": "pilot",
+      "transcription": "[ 'pailət ]",
+      "russian": ["пилот", "лётчик"]
+    },
+    {
+      "english": "airport",
+      "transcription": "[ ˈeəpɔːt ]",
+      "russian": ["аэропорт"]
+    },
+    {
+      "english": "gate",
+      "transcription": "[ geit ]",
+      "russian": ["выход к воздушному судну"]
+    },
+    {
+      "english": "check-in",
+      "transcription": "[ ʧek-in ]",
+      "russian": ["регистрация", "стойка регистрации"]
+    },
+    {
+      "english": "boarding pass",
+      "transcription": "[ 'bɔ:rdɪŋ pɑ:s ]",
+      "russian": ["посадочный талон"]
+    },
+    {
+      "english": "ticket",
+      "transcription": "[ 'tikit ]",
+      "russian": ["билет"]
+    },
+    {
+      "english": "cabin",
+      "transcription": "[ 'kæbin ]",
+      "russian": ["салон самолёта"]
+    },
+    {
+      "english": "aisle",
+      "transcription": "[ ail ]",
+      "russian": ["проход между рядами"]
+    },
+    {
+      "english": "runway",
+      "transcription": "[ 'rʌnwei ]",
+      "russian": ["взлетно-посадочная полоса"]
+    },
+    {
+      "english": "crew",
+      "transcription": "[ kru: ]",
+      "russian": ["экипаж"]
+    },
+    {
+      "english": "customs",
+      "transcription": "[ 'kʌstəmz ]",
+      "russian": ["таможня"]
+    }
+  ]
+}
