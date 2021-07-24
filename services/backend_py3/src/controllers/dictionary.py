@@ -7,10 +7,10 @@ from flask import Response, jsonify
 from flask import current_app, make_response
 from werkzeug.exceptions import BadRequest
 
-from backend_py3.src.models.common import db
-from backend_py3.src.models.dictionary import English
+from src.models.common import db
+from src.models.dictionary import English
 
-from backend_py3.src.controllers.const import (
+from src.controllers.const import (
     ENGLISH_GET, ENGLISH_NOT_GET
 )
 

@@ -1,4 +1,4 @@
-from backend_py3.src.models.common import db
+from src.models.common import db
 
 
 class English(db.Model):
