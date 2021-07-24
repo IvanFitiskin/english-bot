@@ -1,10 +1,11 @@
+import logging
 from aiogram import Dispatcher
 
 from aiogram.types import CallbackQuery, ParseMode, Message
-from tgbot.src.client import BackendClient
+from src.client import BackendClient
 
-from tgbot.src.message.english_content_message import create_message
-from tgbot.src.keyboards.callback.pagination import pagination_callback
+from src.message.english_content_message import create_message
+from src.keyboards.callback.pagination import pagination_callback
 
 client = BackendClient()
 
@@ -14,7 +15,7 @@ async def print_first_english_word(message: Message):
         'page': 1
     }
     response_json = client.get_english_word(data)
-    print(response_json)
+    logging.info(f'{response_json}')
     max_limit = response_json.get('total_records', None)
 
     word_data = response_json['data'][0]
@@ -23,8 +24,6 @@ async def print_first_english_word(message: Message):
     transcription = word_data.get('transcription')
 
     text, markup_keyboard = create_message(word, transcription, 1, max_limit)
-
-
 
     await message.answer(
         text=text,

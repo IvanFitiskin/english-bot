@@ -1,6 +1,6 @@
 import os
 
-from common.secret import SECRET_TG_BOT_TOKEN
+from config.secret import SECRET_TG_BOT_TOKEN
 
 
 class Config(object):
@@ -8,7 +8,7 @@ class Config(object):
     POSTGRES_PORT = os.getenv('DB_PORT', '54320')
     POSTGRES_USER = 'postgres'
     POSTGRES_PW = '12345678'
-    POSTGRES_DB = 'postgres'
+    POSTGRES_DB = 'english'
 
     SQLALCHEMY_DATABASE_URI = (
         'postgresql+psycopg2:'
@@ -24,14 +24,14 @@ class Config(object):
 
     RUN_IN_DOCKER = os.getenv('RUN_IN_DOCKER', False)
 
-    FLASK_CONFIGURATION = 'development'
+    # FLASK_CONFIGURATION = 'development'
 
     if RUN_IN_DOCKER:
-        SERVICE_HOST = 'http://english-bot'
+        SERVICE_HOST = 'http://englishbot'
     else:
         SERVICE_HOST = 'http://localhost'
 
-    SERVICE_PORT = '8000'
+    SERVICE_PORT = '5000'
     SERVICE_URL = '{}:{}'.format(
         SERVICE_HOST, SERVICE_PORT,
     )

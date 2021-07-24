@@ -1,14 +1,10 @@
-version: "2.1"
+version: "3.5.2"
 
 services:
-  backendpy3:
+  englishbot:
     build:
       context: ./
       dockerfile: services/backend_py3/Dockerfile
-    volumes:
-      - ./common:/english-bot/common:rw
-      - ./data:/english-bot/data:rw
-      - ./services/backend_py3:/english-bot/backend_py3:rw
     environment:
       DB_HOST: db
       DB_PORT: 5432
@@ -16,11 +12,20 @@ services:
       db:
         condition: service_healthy
     ports:
-      - "8000:8000"
+      - "5000:5000"
+    hostname: dcbackend
+
+  tgbot:
+    build:
+      context: ./
+      dockerfile: services/tgbot/Dockerfile
+    depends_on:
+      - englishbot
 
   db:
     image: postgres
     environment:
+      POSTGRES_DB: "english"
       POSTGRES_PASSWORD: 12345678
     ports:
       - "54320:5432"

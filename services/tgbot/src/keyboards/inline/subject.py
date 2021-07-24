@@ -1,6 +1,6 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from tgbot.src.keyboards.callback.subject import create_subject_callback
+from src.keyboards.callback.subject import create_subject_callback
 
 
 def create_subject_keyboard(subject='All words'):

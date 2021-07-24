@@ -3,8 +3,8 @@ import os
 
 from flask_cors import CORS
 
-from backend_py3.src.models.common import db
-from backend_py3.src.utils.init_dictionary import create_dictionary
+from src.models.common import db
+from src.utils.init_dictionary import create_dictionary
 
 app = connexion.App(__name__)
 logger = app.app.logger
@@ -16,7 +16,7 @@ def create_app():
     )
     application = app.app
 
-    application.config.from_object('common.config.Config')
+    application.config.from_object('config.config.Config')
 
     CORS(application)
 

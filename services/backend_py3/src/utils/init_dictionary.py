@@ -1,7 +1,7 @@
 import json
 
-from backend_py3.src.models.common import db
-from backend_py3.src.models.dictionary import English, Russian, EnglishRussianLink
+from src.models.common import db
+from src.models.dictionary import English, Russian, EnglishRussianLink
 
 
 def create_dictionary(path):

@@ -1,0 +1,14 @@
+version: "3.5.2"
+
+services:
+  englishbot:
+    volumes:
+      - ./config:/english-bot/backendpy3/config:rw
+      - ./data:/english-bot/data:rw
+      - ./services/backend_py3:/english-bot/backend_py3:rw
+
+  tgbot:
+    volumes:
+      - ./config:/english-bot/backendpy3/config:rw
+      - ./services/tgbot:/english-bot/tgbot:rw
+

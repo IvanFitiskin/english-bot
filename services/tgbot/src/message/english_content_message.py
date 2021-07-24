@@ -1,5 +1,5 @@
-from tgbot.src.keyboards.inline.pagination import get_page_list_keyboard
-from tgbot.src.keyboards.inline.subject import create_subject_keyboard
+from src.keyboards.inline.pagination import get_page_list_keyboard
+from src.keyboards.inline.subject import create_subject_keyboard
 
 
 def create_message(word, transcription, page, max_limit):

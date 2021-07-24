@@ -1,5 +1,5 @@
 from aiogram.types import InlineKeyboardButton
-from tgbot.src.keyboards.callback.pagination import create_pagination_callback
+from src.keyboards.callback.pagination import create_pagination_callback
 
 
 def get_page_list_keyboard(max_limit: int, page_number=1):
