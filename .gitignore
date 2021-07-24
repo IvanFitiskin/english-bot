@@ -9,4 +9,4 @@ __pycache__
 
 data/production
 
-config/secret.py
+#config/secret.py
