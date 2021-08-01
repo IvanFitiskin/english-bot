@@ -45,3 +45,31 @@ paths:
                   message:
                     type: string
                     description: Короткий ответ пользователю
+
+  /v1/russian:
+    get:
+      description: Отдать все английские слова пользователю
+      operationId: backend_py3.src.controllers.dictionary.get_russian_word
+      parameters:
+        - in: query
+          name: english_word
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - data
+                  - message
+                properties:
+                  data:
+                    type: array
+                    description: Список слов
+                  message:
+                    type: string
+                    description: Короткий ответ пользователю

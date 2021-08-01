@@ -8,10 +8,11 @@ from flask import current_app, make_response
 from werkzeug.exceptions import BadRequest
 
 from src.models.common import db
-from src.models.dictionary import English
+from src.models.dictionary import English, Russian, EnglishRussianLink
 
 from src.controllers.const import (
-    ENGLISH_GET, ENGLISH_NOT_GET
+    ENGLISH_GET, ENGLISH_NOT_GET,
+    RUSSIAN_GET, RUSSIAN_NOT_GET
 )
 
 
@@ -55,5 +56,45 @@ def get_english_words(page: int) -> Response:
                 'message': ENGLISH_NOT_GET
             }), 404
         )
+
+    return response
+
+
+def get_russian_word(english_word: str) -> Response:
+    if not english_word:
+        raise BadRequest('Field `english_word` is empty')
+
+    english_russian_query_result = db.session.query(English.id, English.word, Russian.word).join(
+        EnglishRussianLink, English.id == EnglishRussianLink.id_eng
+    ).join(
+        Russian, Russian.id == EnglishRussianLink.id_rus
+    ).filter(
+        English.word == english_word
+    ).all()
+
+    data = []
+
+    if len(english_russian_query_result) == 0:
+        response = make_response(
+            jsonify({
+                'data': data,
+                'message': RUSSIAN_NOT_GET
+            }), 404
+        )
+        return response
+
+    for id_eng, english_word_db, russian_word_db in english_russian_query_result:
+        data.append({
+            'id_eng': id_eng,
+            'english': english_word_db,
+            'russian': russian_word_db
+        })
+
+    response = make_response(
+        jsonify({
+            'data': data,
+            'message': RUSSIAN_GET
+        }), 200
+    )
 
     return response
