@@ -41,3 +41,16 @@ def get_page_list_keyboard(max_limit: int, page_number=1):
         )
 
     return custom_markup
+
+
+def get_fake_page_list_keyboard():
+    custom_markup = list()
+    for i in range(3):
+        custom_markup.append(
+            InlineKeyboardButton(
+                text='\u2298',
+                callback_data='fake'
+            )
+        )
+
+    return custom_markup
