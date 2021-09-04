@@ -1,10 +1,13 @@
 import logging
+import json
 from aiogram import Dispatcher
 
 from aiogram.types import CallbackQuery, ParseMode, Message
 from src.client import BackendClient
 
 from src.message.english_content_message import create_message, create_translation_message
+
+from src.keyboards.callback.tools import translation_to_russian_callback
 from src.keyboards.callback.pagination import pagination_callback
 
 client = BackendClient()
@@ -86,18 +89,20 @@ async def print_translation_to_russian_word(call: CallbackQuery, callback_data: 
     subject = callback_data.get('subject')
 
     data = {
-        'english': english
+        'english_word': english
     }
     response_json = client.get_russian_word(data)
 
-    word_data = response_json['data'][0]
+    word_data = response_json.get('data')
 
     list_russian_word = word_data.get('russian')
-    words = ''
+
     if len(list_russian_word) > 1:
-        words = list_russian_word[0]
+        words = str(list_russian_word[0])
         for i in range(1, len(list_russian_word) - 1):
-            words = words + f', {list_russian_word[i]}'
+            words = words + f', {str(list_russian_word[i])}'
+    else:
+        words = str(list_russian_word[0])
 
     text, markup_keyboard = create_translation_message(words, page)
 
@@ -111,7 +116,7 @@ async def print_translation_to_russian_word(call: CallbackQuery, callback_data: 
 def register_card_handlers(dp: Dispatcher):
     dp.register_message_handler(print_first_english_word, commands=['english'], state="*")
     dp.register_callback_query_handler(print_translation_to_russian_word,
-                                       pagination_callback.filter(key='translation'))
+                                       translation_to_russian_callback.filter(key='to_russian'))
     dp.register_callback_query_handler(print_prev_english_word,
                                        pagination_callback.filter(key='prev_page'))
     dp.register_callback_query_handler(print_next_english_word,

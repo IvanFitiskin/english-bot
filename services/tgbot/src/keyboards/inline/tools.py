@@ -1,22 +1,23 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from src.keyboards.callback.tools import create_subject_callback, create_translation_to_russian_callback
+from src.keyboards.callback.tools import create_subject_callback,\
+    create_translation_to_russian_callback, create_translation_to_english_callback
 
 
-def create_tools_keyboard(english_word, page, subject='All words'):
+def create_tools_keyboard(english_word, page):
     markup = InlineKeyboardMarkup(row_width=1)
 
     subject_button = InlineKeyboardButton(
-        text=f'Subject - {subject}',
+        text=f'Subject - All words',
         callback_data='dump'
     )
 
     translation_button = InlineKeyboardButton(
         text='Russian translation \u21bb',
         callback_data=create_translation_to_russian_callback(
-            english_word=english_word,
+            english=english_word,
             page=page,
-            subject=subject
+            subject='All words'
         )
     )
 
@@ -31,7 +32,7 @@ def create_russian_tools_keyboard(page, subject='All words'):
 
     translation_button = InlineKeyboardButton(
         text='English translation \u21bb',
-        callback_data=create_translation_to_russian_callback(
+        callback_data=create_translation_to_english_callback(
             page=page,
             subject=subject
         )
