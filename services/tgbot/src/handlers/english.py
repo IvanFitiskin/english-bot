@@ -78,7 +78,7 @@ async def print_next_english_word(call: CallbackQuery, callback_data: dict):
     )
 
 
-def register_english_handlers(dp: Dispatcher):
+def register_card_handlers(dp: Dispatcher):
     dp.register_message_handler(print_first_english_word, commands=['english'], state="*")
     dp.register_callback_query_handler(print_prev_english_word,
                                        pagination_callback.filter(key='prev_page'))
