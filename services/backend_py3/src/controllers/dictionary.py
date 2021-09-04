@@ -72,7 +72,7 @@ def get_russian_word(english_word: str) -> Response:
         English.word == english_word
     ).all()
 
-    data = []
+    data = {}
 
     if len(english_russian_query_result) == 0:
         response = make_response(
@@ -83,13 +83,17 @@ def get_russian_word(english_word: str) -> Response:
         )
         return response
 
-    for id_eng, english_word_db, russian_word_db in english_russian_query_result:
-        data.append({
-            'id_eng': id_eng,
-            'english': english_word_db,
-            'russian': russian_word_db
-        })
+    id_eng = 0
+    russian_words = []
+    for id_eng_db, english_word_db, russian_word_db in english_russian_query_result:
+        id_eng = id_eng_db
+        russian_words.append(russian_word_db)
 
+    data = {
+        'id_eng': id_eng,
+        'english': english_word,
+        'russian': russian_words
+    }
     response = make_response(
         jsonify({
             'data': data,
