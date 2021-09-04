@@ -25,3 +25,6 @@ class BackendClient:
 
     def get_english_word(self, json_data):
         return self.get(request_postfix='/v1/english', json_data=json_data)
+
+    def get_russian_word(self, json_data):
+        return self.get(request_postfix='/v1/russian', json_data=json_data)
