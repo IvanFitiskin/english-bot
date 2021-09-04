@@ -7,10 +7,16 @@ from src.keyboards.callback.tools import create_subject_callback,\
 def create_tools_keyboard(english_word, page):
     markup = InlineKeyboardMarkup(row_width=1)
 
-    subject_button = InlineKeyboardButton(
-        text='Subject - All words',
-        callback_data='dump'
+    fake_button = InlineKeyboardButton(
+        text='\u2298',
+        callback_data='fake'
     )
+
+    # TODO - ENG-9
+    # subject_button = InlineKeyboardButton(
+    #     text='Subject - All words',
+    #     callback_data='dump'
+    # )
 
     translation_button = InlineKeyboardButton(
         text='Russian translation \u21bb',
@@ -21,7 +27,7 @@ def create_tools_keyboard(english_word, page):
         )
     )
 
-    markup.insert(subject_button)
+    markup.insert(fake_button)
     markup.insert(translation_button)
 
     return markup
