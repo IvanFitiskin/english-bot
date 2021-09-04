@@ -8,7 +8,7 @@ client = BackendClient()
 
 async def start_education(message: Message):
     start_message = \
-        f'Привет, {message.from_user.full_name}!\nНачнем учить английский?. '\
+        f'Привет, {message.from_user.full_name}!\nНачнем учить английский? '\
         f'Для запуска первого списка слов воспользуйтесь командой /english'
     await message.answer(start_message)
 
