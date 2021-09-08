@@ -99,7 +99,7 @@ async def print_translation_to_russian_word(call: CallbackQuery, callback_data: 
 
     if len(list_russian_word) > 1:
         words = str(list_russian_word[0])
-        for i in range(1, len(list_russian_word) - 1):
+        for i in range(1, len(list_russian_word)):
             words = words + f', {str(list_russian_word[i])}'
     else:
         words = str(list_russian_word[0])

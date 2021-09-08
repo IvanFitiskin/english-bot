@@ -8,7 +8,7 @@ def create_tools_keyboard(english_word, page):
     markup = InlineKeyboardMarkup(row_width=1)
 
     fake_button = InlineKeyboardButton(
-        text='\u2298',
+        text='\u2014\u2014\u2298\u2014\u2014',
         callback_data='fake'
     )
 
@@ -37,7 +37,7 @@ def create_russian_tools_keyboard(page, subject='All words'):
     markup = InlineKeyboardMarkup(row_width=1)
 
     fake_button = InlineKeyboardButton(
-        text='\u2298',
+        text='\u2014\u2014\u2298\u2014\u2014',
         callback_data='fake'
     )
 
