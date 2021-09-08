@@ -5,7 +5,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
 from src.handlers.common import register_start_handler, register_ping_handler
-from src.handlers.english import register_english_handlers
+from src.handlers.english import register_card_handlers
 from config.config import Config
 
 logger = logging.getLogger(__name__)
@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 def register_all_handlers(dp):
     register_start_handler(dp)
     register_ping_handler(dp)
-    register_english_handlers(dp)
+    register_card_handlers(dp)
 
 
 async def main():

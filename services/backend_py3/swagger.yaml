@@ -68,7 +68,7 @@ paths:
                   - message
                 properties:
                   data:
-                    type: array
+                    type: object
                     description: Список слов
                   message:
                     type: string
