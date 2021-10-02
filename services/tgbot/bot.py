@@ -6,7 +6,7 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
 from src.handlers.common import register_start_handler, register_ping_handler
 from src.handlers.english import register_card_handlers
-from config.config import Config
+from config.backend_py3 import Config
 
 logger = logging.getLogger(__name__)
 
