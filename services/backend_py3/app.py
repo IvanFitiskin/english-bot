@@ -16,7 +16,7 @@ def create_app():
     )
     application = app.app
 
-    application.config.from_object('config.config.Config')
+    application.config.from_object('config.backend_py3.Config')
 
     CORS(application)
 

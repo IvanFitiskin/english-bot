@@ -5,8 +5,8 @@ from config.backend_py3 import Config
 
 SERVICE_URL = Config.SERVICE_URL
 
-
-result_1 = {
+TEST_CASES = [
+    (1, {
         "data": [
             {
                 "id": 1,
@@ -15,58 +15,52 @@ result_1 = {
             }
         ],
         "message": "ENGLISH_GET",
-        "total_records": 80
-    }
+        "total_records": 81
+    }),
+    (10, {
+        "data": [
+            {
+                "id": 10,
+                "transcription": "[ 'rʌnwei ]",
+                "word": "runway"
+            }
+        ],
+        "message": "ENGLISH_GET",
+        "total_records": 81
+    }),
+    (80, {
+        "data": [
+            {
+                "id": 80,
+                "transcription": "[ ɪnˈvent ]",
+                "word": "to invent"
+            }
+        ],
+        "message": "ENGLISH_GET",
+        "total_records": 81
+    }),
+    (81, {
+        "data": [
+            {
+                "id": 81,
+                "transcription": "[ ˈfɪʃəmən ]",
+                "word": "fisherman"
+            }
+        ],
+        "message": "ENGLISH_GET",
+        "total_records": 81
+    })
+]
 
-result_10 = {
-    "data": [
-        {
-            "id": 10,
-            "transcription": "[ 'rʌnwei ]",
-            "word": "runway"
-        }
-    ],
-    "message": "ENGLISH_GET",
-    "total_records": 80
-}
 
-result_80 = {
-    "data": [
-        {
-            "id": 80,
-            "transcription": "[ ɪnˈvent ]",
-            "word": "to invent"
-        }
-    ],
-    "message": "ENGLISH_GET",
-    "total_records": 80
-}
-
-result_81 = {
-    "data": [{}],
-    "message": "ENGLISH_NOT_GET",
-    "total_records": 0
-}
-
-
-@pytest.mark.parametrize("page, result", [
-    (1, result_1),
-    (10, result_10),
-    (80, result_80),
-    (81, result_81),
-])
+@pytest.mark.parametrize("page, result", TEST_CASES)
 def test_get_english_word_by_page(page, result):
-    response_json = requests.get(f'{SERVICE_URL}/v1/english', params={
+    response = requests.get(f'{SERVICE_URL}/v1/english', params={
         'page': page
-    }).json()
+    })
 
-    word_data = response_json.get('data')[0]
-    test_word_data = result.get('data')[0]
-
-    assert word_data.get('transcription', None) == test_word_data.get('transcription', None)
-    assert word_data.get('word', None) == test_word_data.get('word', None)
-    assert response_json.get('message', None) == result.get('message', None)
-    assert response_json.get('total_records', None) == result.get('total_records', None)
+    assert response.status_code == 200
+    assert response.json() == result
 
 
 def test_get_english_word_by_page_empty():

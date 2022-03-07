@@ -11,7 +11,7 @@ WORKDIR /english-bot/backend_py3
 ENV RUN_IN_DOCKER 1
 ENV FLASK_APP /english-bot/backend_py3/app.py
 
-EXPOSE 5000
+EXPOSE 8000
 ENTRYPOINT ["python3"]
 
-CMD ["-m", "flask", "run", "--host", "0.0.0.0", "--port", "5000"]
+CMD ["-m", "flask", "run", "--host", "0.0.0.0", "--port", "8000"]
