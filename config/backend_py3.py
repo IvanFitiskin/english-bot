@@ -31,7 +31,7 @@ class Config(object):
     else:
         SERVICE_HOST = 'http://localhost'
 
-    SERVICE_PORT = '5000'
+    SERVICE_PORT = '8000'
     SERVICE_URL = '{}:{}'.format(
         SERVICE_HOST, SERVICE_PORT,
     )

@@ -31,7 +31,7 @@ def get_english_words(page: int) -> Response:
 
     total_records = pagination.total
 
-    data = []
+    data = list()
     for english in pagination.items:
         transcription = english.transcription
         data.append({
@@ -49,6 +49,7 @@ def get_english_words(page: int) -> Response:
             }), 200
         )
     else:
+        data.append({})
         response = make_response(
             jsonify({
                 'data': data,

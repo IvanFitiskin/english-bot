@@ -1,7 +1,7 @@
 import requests
 import logging
 
-from config.config import Config
+from config.backend_py3 import Config
 
 
 class BackendClient:
