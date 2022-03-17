@@ -15,6 +15,7 @@ class English(db.Model):
     transcription = db.Column(db.String(80))
 
     russian = db.relationship("EnglishRussianLink", back_populates="english")
+    subject = db.relationship("SubjectEnglishLink", back_populates="english")
 
     def __init__(self, word: str, transcription: str):
         self.word = word
