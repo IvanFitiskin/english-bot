@@ -11,20 +11,20 @@ class Subject(db.Model):
         primary_key=True,
         autoincrement=True
     )
-    word = db.Column(db.String(80))
+    name = db.Column(db.String(80))
     transcription = db.Column(db.String(80))
 
-    english = db.relationship("SubjectEnglishLink", back_populates="subject")
+    word = db.relationship("SubjectWordLink", back_populates="subject")
 
-    def __init__(self, word: str, transcription: str):
-        self.word = word
+    def __init__(self, name: str, transcription: str):
+        self.name = name
         self.transcription = transcription
 
 
-class SubjectEnglishLink(db.Model):
+class SubjectWordLink(db.Model):
     """Link english words with russian words"""
 
-    __tablename__ = 'subject_english_link'
+    __tablename__ = 'subject_word_link'
 
     id = db.Column(
         db.Integer,
@@ -35,14 +35,14 @@ class SubjectEnglishLink(db.Model):
         db.Integer,
         db.ForeignKey('subject.id')
     )
-    english_id = db.Column(
+    word_id = db.Column(
         db.Integer,
-        db.ForeignKey('english.id')
+        db.ForeignKey('word.id')
     )
 
-    subject = db.relationship("Subject", back_populates="english")
-    english = db.relationship("English", back_populates="subject")
+    subject = db.relationship("Subject", back_populates="word")
+    word = db.relationship("Word", back_populates="subject")
 
-    def __init__(self, subject_id: int, english_id: int):
+    def __init__(self, subject_id: int, word_id: int):
         self.subject_id = subject_id
-        self.english_id = english_id
+        self.word_id = word_id

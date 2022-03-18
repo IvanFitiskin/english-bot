@@ -1,24 +1,24 @@
 from src.models.common import db
 
 
-class English(db.Model):
-    """List of english words."""
+class Word(db.Model):
+    """List of words."""
 
-    __tablename__ = 'english'
+    __tablename__ = 'word'
 
     id = db.Column(
         db.Integer,
         primary_key=True,
         autoincrement=True
     )
-    word = db.Column(db.String(80))
+    name = db.Column(db.String(80))
     transcription = db.Column(db.String(80))
 
-    russian = db.relationship("EnglishRussianLink", back_populates="english")
-    subject = db.relationship("SubjectEnglishLink", back_populates="english")
+    russian = db.relationship("WordRussianLink", back_populates="word")
+    subject = db.relationship("SubjectWordLink", back_populates="word")
 
-    def __init__(self, word: str, transcription: str):
-        self.word = word
+    def __init__(self, name: str, transcription: str):
+        self.name = name
         self.transcription = transcription
 
 
@@ -32,36 +32,36 @@ class Russian(db.Model):
         primary_key=True,
         autoincrement=True
     )
-    word = db.Column(db.String(80))
+    name = db.Column(db.String(80))
 
-    english = db.relationship("EnglishRussianLink", back_populates="russian")
+    word = db.relationship("WordRussianLink", back_populates="russian")
 
-    def __init__(self, word: str):
-        self.word = word
+    def __init__(self, name: str):
+        self.name = name
 
 
-class EnglishRussianLink(db.Model):
+class WordRussianLink(db.Model):
     """Link english words with russian words"""
 
-    __tablename__ = 'english_russian_link'
+    __tablename__ = 'word_russian_link'
 
     id = db.Column(
         db.Integer,
         primary_key=True,
         autoincrement=True
     )
-    id_eng = db.Column(
+    word_id = db.Column(
         db.Integer,
-        db.ForeignKey('english.id')
+        db.ForeignKey('word.id')
     )
     id_rus = db.Column(
         db.Integer,
         db.ForeignKey('russian.id')
     )
 
-    english = db.relationship("English", back_populates="russian")
-    russian = db.relationship("Russian", back_populates="english")
+    word = db.relationship("Word", back_populates="russian")
+    russian = db.relationship("Russian", back_populates="word")
 
-    def __init__(self, id_eng: int, id_rus: int):
-        self.id_eng = id_eng
+    def __init__(self, word_id: int, id_rus: int):
+        self.word_id = word_id
         self.id_rus = id_rus

@@ -8,7 +8,7 @@ from flask import current_app, make_response
 from werkzeug.exceptions import BadRequest
 
 from src.models.common import db
-from src.models.dictionary import English, Russian, EnglishRussianLink
+from src.models.dictionary import Word, Russian, WordRussianLink
 
 from src.controllers.const import (
     ENGLISH_GET, ENGLISH_NOT_GET,
@@ -20,7 +20,7 @@ def get_english_words(page: int) -> Response:
     if not page:
         raise BadRequest('Field `page` is empty')
 
-    words_db = db.session.query(English)
+    words_db = db.session.query(Word)
 
     pagination = words_db.paginate(
         page=page,
@@ -32,11 +32,11 @@ def get_english_words(page: int) -> Response:
     total_records = pagination.total
 
     data = list()
-    for english in pagination.items:
-        transcription = english.transcription
+    for word in pagination.items:
+        transcription = word.transcription
         data.append({
-            'id': english.id,
-            'word': english.word,
+            'id': word.id,
+            'name': word.name,
             'transcription': transcription
         })
 
@@ -61,21 +61,21 @@ def get_english_words(page: int) -> Response:
     return response
 
 
-def get_russian_word(english_word: str) -> Response:
-    if not english_word:
+def get_russian_word(word: str) -> Response:
+    if not word:
         raise BadRequest('Field `english_word` is empty')
 
-    english_russian_query_result = db.session.query(English.id, English.word, Russian.word).join(
-        EnglishRussianLink, English.id == EnglishRussianLink.id_eng
+    word_russian_query_result = db.session.query(Word.id, Word.name, Russian.word).join(
+        WordRussianLink, Word.id == WordRussianLink.word_id
     ).join(
-        Russian, Russian.id == EnglishRussianLink.id_rus
+        Russian, Russian.id == WordRussianLink.id_rus
     ).filter(
-        English.word == english_word
+        Word.name == word
     ).all()
 
     data = {}
 
-    if len(english_russian_query_result) == 0:
+    if len(word_russian_query_result) == 0:
         response = make_response(
             jsonify({
                 'data': data,
@@ -84,15 +84,15 @@ def get_russian_word(english_word: str) -> Response:
         )
         return response
 
-    id_eng = 0
+    word_id = 0
     russian_words = []
-    for id_eng_db, english_word_db, russian_word_db in english_russian_query_result:
-        id_eng = id_eng_db
+    for word_id_db, word_name_db, russian_word_db in word_russian_query_result:
+        word_id = word_id_db
         russian_words.append(russian_word_db)
 
     data = {
-        'id_eng': id_eng,
-        'english': english_word,
+        'word_id': word_id,
+        'word': word,
         'russian': russian_words
     }
     response = make_response(
