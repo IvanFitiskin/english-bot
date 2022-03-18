@@ -43,23 +43,23 @@ def create_dictionary(path):
         transcription = word.get('transcription', None)
         translation_words = word.get('russian', None)
 
-        eng_word_db = db.session.query(Word).filter_by(name=word_name).first()
-        if not eng_word_db:
-            new_word = Word(
+        word_db = db.session.query(Word).filter_by(name=word_name).first()
+        if not word_db:
+            new_word_db = Word(
                 word_name,
                 transcription
             )
-            db.session.add(new_word)
+            db.session.add(new_word_db)
             db.session.flush()
-            word_id = new_word.id
+            word_id = new_word_db.id
         else:
-            word_id = eng_word_db.id
+            word_id = word_db.id
 
-        sub_eng_link_db = db.session.query(SubjectWordLink).filter_by(
+        sub_word_link_db = db.session.query(SubjectWordLink).filter_by(
             subject_id=subject_id,
             word_id=word_id
         ).first()
-        if not sub_eng_link_db:
+        if not sub_word_link_db:
             new_sub_word_link_db = SubjectWordLink(
                 subject_id,
                 word_id
