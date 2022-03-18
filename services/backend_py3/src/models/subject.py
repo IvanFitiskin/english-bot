@@ -12,13 +12,13 @@ class Subject(db.Model):
         autoincrement=True
     )
     name = db.Column(db.String(80))
-    transcription = db.Column(db.String(80))
+    translation = db.Column(db.String(80))
 
     word = db.relationship("SubjectWordLink", back_populates="subject")
 
-    def __init__(self, name: str, transcription: str):
+    def __init__(self, name: str, translation: str):
         self.name = name
-        self.transcription = transcription
+        self.translation = translation
 
 
 class SubjectWordLink(db.Model):

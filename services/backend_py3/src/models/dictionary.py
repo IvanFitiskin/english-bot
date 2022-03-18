@@ -14,7 +14,7 @@ class Word(db.Model):
     name = db.Column(db.String(80))
     transcription = db.Column(db.String(80))
 
-    russian = db.relationship("WordRussianLink", back_populates="word")
+    translation = db.relationship("WordTranslationLink", back_populates="word")
     subject = db.relationship("SubjectWordLink", back_populates="word")
 
     def __init__(self, name: str, transcription: str):
@@ -22,10 +22,10 @@ class Word(db.Model):
         self.transcription = transcription
 
 
-class Russian(db.Model):
-    """List of russian words."""
+class Translation(db.Model):
+    """List of translation words."""
 
-    __tablename__ = 'russian'
+    __tablename__ = 'translation'
 
     id = db.Column(
         db.Integer,
@@ -34,16 +34,16 @@ class Russian(db.Model):
     )
     name = db.Column(db.String(80))
 
-    word = db.relationship("WordRussianLink", back_populates="russian")
+    word = db.relationship("WordTranslationLink", back_populates="translation")
 
     def __init__(self, name: str):
         self.name = name
 
 
-class WordRussianLink(db.Model):
+class WordTranslationLink(db.Model):
     """Link english words with russian words"""
 
-    __tablename__ = 'word_russian_link'
+    __tablename__ = 'word_translation_link'
 
     id = db.Column(
         db.Integer,
@@ -54,14 +54,14 @@ class WordRussianLink(db.Model):
         db.Integer,
         db.ForeignKey('word.id')
     )
-    id_rus = db.Column(
+    translation_id = db.Column(
         db.Integer,
-        db.ForeignKey('russian.id')
+        db.ForeignKey('translation.id')
     )
 
-    word = db.relationship("Word", back_populates="russian")
-    russian = db.relationship("Russian", back_populates="word")
+    word = db.relationship("Word", back_populates="translation")
+    translation = db.relationship("Translation", back_populates="word")
 
-    def __init__(self, word_id: int, id_rus: int):
+    def __init__(self, word_id: int, translation_id: int):
         self.word_id = word_id
-        self.id_rus = id_rus
+        self.translation_id = translation_id

@@ -1,7 +1,7 @@
 import json
 
 from src.models.common import db
-from src.models.dictionary import Word, Russian, WordRussianLink
+from src.models.dictionary import Word, Translation, WordTranslationLink
 from src.models.subject import Subject, SubjectWordLink
 
 
@@ -41,7 +41,7 @@ def create_dictionary(path):
     for word in words:
         word_name = word.get('english', None)
         transcription = word.get('transcription', None)
-        russian_words = word.get('russian', None)
+        translation_words = word.get('russian', None)
 
         eng_word_db = db.session.query(Word).filter_by(name=word_name).first()
         if not eng_word_db:
@@ -67,28 +67,28 @@ def create_dictionary(path):
             db.session.add(new_sub_word_link_db)
             db.session.flush()
 
-        for russian_word in russian_words:
-            rus_word_db = db.session.query(Russian).filter_by(name=russian_word).first()
-            if not rus_word_db:
-                new_rus_word = Russian(
-                    russian_word
+        for translation_name in translation_words:
+            translation_name_db = db.session.query(Translation).filter_by(name=translation_name).first()
+            if not translation_name_db:
+                new_translation_name_db = Translation(
+                    translation_name
                 )
-                db.session.add(new_rus_word)
+                db.session.add(new_translation_name_db)
                 db.session.flush()
-                id_rus = new_rus_word.id
+                translation_id = new_translation_name_db.id
             else:
-                id_rus = rus_word_db.id
+                translation_id = translation_name_db.id
 
-            word_rus_link_db = db.session.query(WordRussianLink).filter_by(
+            word_translation_link_db = db.session.query(WordTranslationLink).filter_by(
                 word_id=word_id,
-                id_rus=id_rus
+                translation_id=translation_id
             ).first()
-            if not word_rus_link_db:
-                new_word_rus_link = WordRussianLink(
+            if not word_translation_link_db:
+                new_word_translation_link_db = WordTranslationLink(
                     word_id,
-                    id_rus
+                    translation_id
                 )
-                db.session.add(new_word_rus_link)
+                db.session.add(new_word_translation_link_db)
                 db.session.flush()
 
     db.session.commit()
