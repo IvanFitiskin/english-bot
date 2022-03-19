@@ -73,3 +73,25 @@ paths:
                   message:
                     type: string
                     description: Короткий ответ пользователю
+
+  /v1/subject:
+    get:
+      description: Отдать все темы пользователю
+      operationId: backend_py3.src.controllers.subject.get_subject
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - data
+                  - message
+                properties:
+                  data:
+                    type: array
+                    description: Объект данных с темами
+                  message:
+                    type: string
+                    description: Короткий ответ пользователю
