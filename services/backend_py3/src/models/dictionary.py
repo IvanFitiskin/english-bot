@@ -1,67 +1,67 @@
 from src.models.common import db
 
 
-class English(db.Model):
-    """List of english words."""
+class Word(db.Model):
+    """List of words."""
 
-    __tablename__ = 'english'
+    __tablename__ = 'word'
 
     id = db.Column(
         db.Integer,
         primary_key=True,
         autoincrement=True
     )
-    word = db.Column(db.String(80))
+    name = db.Column(db.String(80))
     transcription = db.Column(db.String(80))
 
-    russian = db.relationship("EnglishRussianLink", back_populates="english")
-    subject = db.relationship("SubjectEnglishLink", back_populates="english")
+    translation = db.relationship("WordTranslationLink", back_populates="word")
+    subject = db.relationship("SubjectWordLink", back_populates="word")
 
-    def __init__(self, word: str, transcription: str):
-        self.word = word
+    def __init__(self, name: str, transcription: str):
+        self.name = name
         self.transcription = transcription
 
 
-class Russian(db.Model):
-    """List of russian words."""
+class Translation(db.Model):
+    """List of translation words."""
 
-    __tablename__ = 'russian'
+    __tablename__ = 'translation'
 
     id = db.Column(
         db.Integer,
         primary_key=True,
         autoincrement=True
     )
-    word = db.Column(db.String(80))
+    name = db.Column(db.String(80))
 
-    english = db.relationship("EnglishRussianLink", back_populates="russian")
+    word = db.relationship("WordTranslationLink", back_populates="translation")
 
-    def __init__(self, word: str):
-        self.word = word
+    def __init__(self, name: str):
+        self.name = name
 
 
-class EnglishRussianLink(db.Model):
+class WordTranslationLink(db.Model):
     """Link english words with russian words"""
 
-    __tablename__ = 'english_russian_link'
+    __tablename__ = 'word_translation_link'
 
     id = db.Column(
         db.Integer,
         primary_key=True,
         autoincrement=True
     )
-    id_eng = db.Column(
+    word_id = db.Column(
         db.Integer,
-        db.ForeignKey('english.id')
+        db.ForeignKey('word.id')
     )
-    id_rus = db.Column(
+    translation_id = db.Column(
         db.Integer,
-        db.ForeignKey('russian.id')
+        db.ForeignKey('translation.id')
     )
 
-    english = db.relationship("English", back_populates="russian")
-    russian = db.relationship("Russian", back_populates="english")
+    word = db.relationship("Word", back_populates="translation")
+    translation = db.relationship("Translation", back_populates="word")
 
-    def __init__(self, id_eng: int, id_rus: int):
-        self.id_eng = id_eng
-        self.id_rus = id_rus
+    def __init__(self, word_id: int, translation_id: int):
+        self.word_id = word_id
+        self.translation_id = translation_id

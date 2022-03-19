@@ -1,12 +1,12 @@
 import json
 
 from src.models.common import db
-from src.models.dictionary import English, Russian, EnglishRussianLink
-from src.models.subject import Subject, SubjectEnglishLink
+from src.models.dictionary import Word, Translation, WordTranslationLink
+from src.models.subject import Subject, SubjectWordLink
 
 
 def create_topic_base(subject_name, subject_translation):
-    subject_db = db.session.query(Subject).filter_by(word=subject_name).first()
+    subject_db = db.session.query(Subject).filter_by(name=subject_name).first()
     if not subject_db:
         new_subject_db = Subject(
             subject_name,
@@ -39,56 +39,56 @@ def create_dictionary(path):
         return
 
     for word in words:
-        english_word = word.get('english', None)
+        word_name = word.get('english', None)
         transcription = word.get('transcription', None)
-        russian_words = word.get('russian', None)
+        translation_words = word.get('russian', None)
 
-        eng_word_db = db.session.query(English).filter_by(word=english_word).first()
-        if not eng_word_db:
-            new_eng_word = English(
-                english_word,
+        word_db = db.session.query(Word).filter_by(name=word_name).first()
+        if not word_db:
+            new_word_db = Word(
+                word_name,
                 transcription
             )
-            db.session.add(new_eng_word)
+            db.session.add(new_word_db)
             db.session.flush()
-            id_eng = new_eng_word.id
+            word_id = new_word_db.id
         else:
-            id_eng = eng_word_db.id
+            word_id = word_db.id
 
-        sub_eng_link_db = db.session.query(SubjectEnglishLink).filter_by(
+        sub_word_link_db = db.session.query(SubjectWordLink).filter_by(
             subject_id=subject_id,
-            english_id=id_eng
+            word_id=word_id
         ).first()
-        if not sub_eng_link_db:
-            new_sub_eng_link_db = SubjectEnglishLink(
+        if not sub_word_link_db:
+            new_sub_word_link_db = SubjectWordLink(
                 subject_id,
-                id_eng
+                word_id
             )
-            db.session.add(new_sub_eng_link_db)
+            db.session.add(new_sub_word_link_db)
             db.session.flush()
 
-        for russian_word in russian_words:
-            rus_word_db = db.session.query(Russian).filter_by(word=russian_word).first()
-            if not rus_word_db:
-                new_rus_word = Russian(
-                    russian_word
+        for translation_name in translation_words:
+            translation_name_db = db.session.query(Translation).filter_by(name=translation_name).first()
+            if not translation_name_db:
+                new_translation_name_db = Translation(
+                    translation_name
                 )
-                db.session.add(new_rus_word)
+                db.session.add(new_translation_name_db)
                 db.session.flush()
-                id_rus = new_rus_word.id
+                translation_id = new_translation_name_db.id
             else:
-                id_rus = rus_word_db.id
+                translation_id = translation_name_db.id
 
-            eng_rus_link_db = db.session.query(EnglishRussianLink).filter_by(
-                id_eng=id_eng,
-                id_rus=id_rus
+            word_translation_link_db = db.session.query(WordTranslationLink).filter_by(
+                word_id=word_id,
+                translation_id=translation_id
             ).first()
-            if not eng_rus_link_db:
-                new_eng_rus_link = EnglishRussianLink(
-                    id_eng,
-                    id_rus
+            if not word_translation_link_db:
+                new_word_translation_link_db = WordTranslationLink(
+                    word_id,
+                    translation_id
                 )
-                db.session.add(new_eng_rus_link)
+                db.session.add(new_word_translation_link_db)
                 db.session.flush()
 
     db.session.commit()

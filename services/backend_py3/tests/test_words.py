@@ -11,10 +11,10 @@ TEST_CASES = [
             {
                 "id": 1,
                 "transcription": "[ pleɪn ]",
-                "word": "plane"
+                "name": "plane"
             }
         ],
-        "message": "ENGLISH_GET",
+        "message": "WORD_GET",
         "total_records": 81
     }),
     (10, {
@@ -22,10 +22,10 @@ TEST_CASES = [
             {
                 "id": 10,
                 "transcription": "[ 'rʌnwei ]",
-                "word": "runway"
+                "name": "runway"
             }
         ],
-        "message": "ENGLISH_GET",
+        "message": "WORD_GET",
         "total_records": 81
     }),
     (80, {
@@ -33,10 +33,10 @@ TEST_CASES = [
             {
                 "id": 80,
                 "transcription": "[ ɪnˈvent ]",
-                "word": "to invent"
+                "name": "to invent"
             }
         ],
-        "message": "ENGLISH_GET",
+        "message": "WORD_GET",
         "total_records": 81
     }),
     (81, {
@@ -44,10 +44,10 @@ TEST_CASES = [
             {
                 "id": 81,
                 "transcription": "[ ˈfɪʃəmən ]",
-                "word": "fisherman"
+                "name": "fisherman"
             }
         ],
-        "message": "ENGLISH_GET",
+        "message": "WORD_GET",
         "total_records": 81
     })
 ]
@@ -55,7 +55,7 @@ TEST_CASES = [
 
 @pytest.mark.parametrize("page, result", TEST_CASES)
 def test_get_english_word_by_page(page, result):
-    response = requests.get(f'{SERVICE_URL}/v1/english', params={
+    response = requests.get(f'{SERVICE_URL}/v1/word', params={
         'page': page
     })
 
@@ -64,7 +64,7 @@ def test_get_english_word_by_page(page, result):
 
 
 def test_get_english_word_by_page_empty():
-    response = requests.get(f'{SERVICE_URL}/v1/english', params={
+    response = requests.get(f'{SERVICE_URL}/v1/word', params={
         'page': 0
     })
 

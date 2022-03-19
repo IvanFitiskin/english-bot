@@ -14,10 +14,10 @@ paths:
           description: OK
           content: {}
 
-  /v1/english:
+  /v1/word:
     get:
       description: Отдать все английские слова пользователю
-      operationId: backend_py3.src.controllers.dictionary.get_english_words
+      operationId: backend_py3.src.controllers.dictionary.get_word
       parameters:
         - in: query
           name: page
@@ -46,10 +46,10 @@ paths:
                     type: string
                     description: Короткий ответ пользователю
 
-  /v1/russian:
+  /v1/translation:
     get:
       description: Отдать все английские слова пользователю
-      operationId: backend_py3.src.controllers.dictionary.get_russian_word
+      operationId: backend_py3.src.controllers.dictionary.get_translation
       parameters:
         - in: query
           name: english_word

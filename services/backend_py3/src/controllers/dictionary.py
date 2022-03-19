@@ -8,19 +8,19 @@ from flask import current_app, make_response
 from werkzeug.exceptions import BadRequest
 
 from src.models.common import db
-from src.models.dictionary import English, Russian, EnglishRussianLink
+from src.models.dictionary import Word, Translation, WordTranslationLink
 
 from src.controllers.const import (
-    ENGLISH_GET, ENGLISH_NOT_GET,
-    RUSSIAN_GET, RUSSIAN_NOT_GET
+    WORD_GET, WORD_NOT_GET,
+    TRANSLATION_GET, TRANSLATION_NOT_GET
 )
 
 
-def get_english_words(page: int) -> Response:
+def get_word(page: int) -> Response:
     if not page:
         raise BadRequest('Field `page` is empty')
 
-    words_db = db.session.query(English)
+    words_db = db.session.query(Word)
 
     pagination = words_db.paginate(
         page=page,
@@ -32,11 +32,11 @@ def get_english_words(page: int) -> Response:
     total_records = pagination.total
 
     data = list()
-    for english in pagination.items:
-        transcription = english.transcription
+    for word in pagination.items:
+        transcription = word.transcription
         data.append({
-            'id': english.id,
-            'word': english.word,
+            'id': word.id,
+            'name': word.name,
             'transcription': transcription
         })
 
@@ -45,7 +45,7 @@ def get_english_words(page: int) -> Response:
             jsonify({
                 'data': data,
                 'total_records': total_records,
-                'message': ENGLISH_GET
+                'message': WORD_GET
             }), 200
         )
     else:
@@ -54,51 +54,51 @@ def get_english_words(page: int) -> Response:
             jsonify({
                 'data': data,
                 'total_records': 0,
-                'message': ENGLISH_NOT_GET
+                'message': WORD_NOT_GET
             }), 404
         )
 
     return response
 
 
-def get_russian_word(english_word: str) -> Response:
-    if not english_word:
-        raise BadRequest('Field `english_word` is empty')
+def get_translation(word: str) -> Response:
+    if not word:
+        raise BadRequest('Field `word` is empty')
 
-    english_russian_query_result = db.session.query(English.id, English.word, Russian.word).join(
-        EnglishRussianLink, English.id == EnglishRussianLink.id_eng
+    word_translation_query_result = db.session.query(Word.id, Word.name, Translation.name).join(
+        WordTranslationLink, Word.id == WordTranslationLink.word_id
     ).join(
-        Russian, Russian.id == EnglishRussianLink.id_rus
+        Translation, Translation.id == WordTranslationLink.translation_id
     ).filter(
-        English.word == english_word
+        Word.name == word
     ).all()
 
     data = {}
 
-    if len(english_russian_query_result) == 0:
+    if len(word_translation_query_result) == 0:
         response = make_response(
             jsonify({
                 'data': data,
-                'message': RUSSIAN_NOT_GET
+                'message': TRANSLATION_NOT_GET
             }), 404
         )
         return response
 
-    id_eng = 0
-    russian_words = []
-    for id_eng_db, english_word_db, russian_word_db in english_russian_query_result:
-        id_eng = id_eng_db
-        russian_words.append(russian_word_db)
+    word_id = 0
+    translation_names = []
+    for word_id_db, word_name_db, translation_name_db in word_translation_query_result:
+        word_id = word_id_db
+        translation_names.append(translation_name_db)
 
     data = {
-        'id_eng': id_eng,
-        'english': english_word,
-        'russian': russian_words
+        'word_id': word_id,
+        'word': word,
+        'translation': translation_names
     }
     response = make_response(
         jsonify({
             'data': data,
-            'message': RUSSIAN_GET
+            'message': TRANSLATION_GET
         }), 200
     )
 
