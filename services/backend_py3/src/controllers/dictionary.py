@@ -11,12 +11,12 @@ from src.models.common import db
 from src.models.dictionary import Word, Translation, WordTranslationLink
 
 from src.controllers.const import (
-    ENGLISH_GET, ENGLISH_NOT_GET,
-    RUSSIAN_GET, RUSSIAN_NOT_GET
+    WORD_GET, WORD_NOT_GET,
+    TRANSLATION_GET, TRANSLATION_NOT_GET
 )
 
 
-def get_english_words(page: int) -> Response:
+def get_word(page: int) -> Response:
     if not page:
         raise BadRequest('Field `page` is empty')
 
@@ -45,7 +45,7 @@ def get_english_words(page: int) -> Response:
             jsonify({
                 'data': data,
                 'total_records': total_records,
-                'message': ENGLISH_GET
+                'message': WORD_GET
             }), 200
         )
     else:
@@ -54,16 +54,16 @@ def get_english_words(page: int) -> Response:
             jsonify({
                 'data': data,
                 'total_records': 0,
-                'message': ENGLISH_NOT_GET
+                'message': WORD_NOT_GET
             }), 404
         )
 
     return response
 
 
-def get_russian_word(word: str) -> Response:
+def get_translation(word: str) -> Response:
     if not word:
-        raise BadRequest('Field `english_word` is empty')
+        raise BadRequest('Field `word` is empty')
 
     word_translation_query_result = db.session.query(Word.id, Word.name, Translation.name).join(
         WordTranslationLink, Word.id == WordTranslationLink.word_id
@@ -79,7 +79,7 @@ def get_russian_word(word: str) -> Response:
         response = make_response(
             jsonify({
                 'data': data,
-                'message': RUSSIAN_NOT_GET
+                'message': TRANSLATION_NOT_GET
             }), 404
         )
         return response
@@ -98,7 +98,7 @@ def get_russian_word(word: str) -> Response:
     response = make_response(
         jsonify({
             'data': data,
-            'message': RUSSIAN_GET
+            'message': TRANSLATION_GET
         }), 200
     )
 
