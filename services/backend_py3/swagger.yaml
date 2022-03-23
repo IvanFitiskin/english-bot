@@ -46,6 +46,43 @@ paths:
                     type: string
                     description: Короткий ответ пользователю
 
+  /v1/wordBySubject:
+    get:
+      description: Отдать все английские слова пользователю
+      operationId: backend_py3.src.controllers.dictionary.get_word_by_subject
+      parameters:
+        - in: query
+          name: page
+          required: true
+          schema:
+            type: integer
+        - in: query
+          name: subject
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - data
+                  - total_records
+                  - message
+                properties:
+                  data:
+                    type: array
+                    description: Список слов
+                  total_records:
+                    type: integer
+                    description: Количество слов всего
+                  message:
+                    type: string
+                    description: Короткий ответ пользователю
+
   /v1/translation:
     get:
       description: Отдать все английские слова пользователю
