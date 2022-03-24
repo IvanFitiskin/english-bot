@@ -1,17 +1,15 @@
-import connexion
-import json
-import uuid
-
 from flask import Response, jsonify
 
-from flask import current_app, make_response
+from flask import make_response
 from werkzeug.exceptions import BadRequest
 
 from src.models.common import db
 from src.models.dictionary import Word, Translation, WordTranslationLink
+from src.models.subject import SubjectWordLink, Subject
 
 from src.controllers.const import (
     WORD_GET, WORD_NOT_GET,
+    WORDS_GET, WORDS_NOT_GET,
     TRANSLATION_GET, TRANSLATION_NOT_GET
 )
 
@@ -55,6 +53,59 @@ def get_word(page: int) -> Response:
                 'data': data,
                 'total_records': 0,
                 'message': WORD_NOT_GET
+            }), 404
+        )
+
+    return response
+
+
+def get_word_by_subject(page: int, subject: str) -> Response:
+    if not page:
+        raise BadRequest('Field `page` is empty')
+
+    if not subject:
+        raise BadRequest('Field `subject` is empty')
+
+    words_from_subject_db = db.session.query(Word.id, Word.name, Subject.name).join(
+        SubjectWordLink, SubjectWordLink.word_id == Word.id
+    ).join(
+        Subject, Subject.id == SubjectWordLink.subject_id
+    ).filter(
+        Subject.name == subject
+    )
+
+    pagination = words_from_subject_db.paginate(
+        page=page,
+        per_page=20,
+        max_per_page=20,
+        error_out=False,
+    )
+
+    total_records = pagination.total
+
+    data = list()
+    for word in pagination.items:
+        data.append({
+            'id': word.id,
+            'name': word.name,
+            'subject': subject
+        })
+
+    if len(data) != 0:
+        response = make_response(
+            jsonify({
+                'data': data,
+                'total_records': total_records,
+                'message': WORDS_GET
+            }), 200
+        )
+    else:
+        data.append({})
+        response = make_response(
+            jsonify({
+                'data': data,
+                'total_records': 0,
+                'message': WORDS_NOT_GET
             }), 404
         )
 
