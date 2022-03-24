@@ -1,10 +1,6 @@
-import connexion
-import json
-import uuid
-
 from flask import Response, jsonify
 
-from flask import current_app, make_response
+from flask import make_response
 from werkzeug.exceptions import BadRequest
 
 from src.models.common import db
