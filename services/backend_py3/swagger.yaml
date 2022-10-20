@@ -46,9 +46,9 @@ paths:
                     type: string
                     description: Короткий ответ пользователю
 
-  /v1/wordBySubject:
+  /v1/word_by_subject:
     get:
-      description: Отдать все английские слова пользователю
+      description: Отдать все английские слова пользователю по теме
       operationId: backend_py3.src.controllers.dictionary.get_word_by_subject
       parameters:
         - in: query
@@ -89,7 +89,7 @@ paths:
       operationId: backend_py3.src.controllers.dictionary.get_translation
       parameters:
         - in: query
-          name: english_word
+          name: word
           required: true
           schema:
             type: string
