@@ -84,11 +84,11 @@ def get_word_by_subject(page: int, subject: str) -> Response:
     total_records = pagination.total
 
     data = list()
-    for word in pagination.items:
+    for word_id, word_name, subject_name in pagination.items:
         data.append({
-            'id': word.id,
-            'name': word.name,
-            'subject': subject
+            'id': word_id,
+            'name': word_name,
+            'subject': subject_name
         })
 
     if len(data) != 0:
