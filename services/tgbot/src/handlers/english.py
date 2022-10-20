@@ -17,13 +17,13 @@ async def print_first_english_word(message: Message):
     data = {
         'page': 1
     }
-    response_json = client.get_english_word(data)
+    response_json = client.get_word(data)
     logging.info(f'{response_json}')
     max_limit = response_json.get('total_records', None)
 
     word_data = response_json['data'][0]
 
-    word = word_data.get('word')
+    word = word_data.get('name')
     transcription = word_data.get('transcription')
 
     text, markup_keyboard = create_message(word, transcription, 1, max_limit)
@@ -41,12 +41,12 @@ async def print_prev_english_word(call: CallbackQuery, callback_data: dict):
     data = {
         'page': prev_page
     }
-    response_json = client.get_english_word(data)
+    response_json = client.get_word(data)
     max_limit = response_json.get('total_records', None)
 
     word_data = response_json['data'][0]
 
-    word = word_data.get('word')
+    word = word_data.get('name')
     transcription = word_data.get('transcription')
 
     text, markup_keyboard = create_message(word, transcription, prev_page, max_limit)
@@ -64,12 +64,12 @@ async def print_next_english_word(call: CallbackQuery, callback_data: dict):
     data = {
         'page': next_page
     }
-    response_json = client.get_english_word(data)
+    response_json = client.get_word(data)
     max_limit = response_json.get('total_records', None)
 
     word_data = response_json['data'][0]
 
-    word = word_data.get('word')
+    word = word_data.get('name')
     transcription = word_data.get('transcription')
 
     text, markup_keyboard = create_message(word, transcription, next_page, max_limit)
@@ -89,13 +89,13 @@ async def print_translation_to_russian_word(call: CallbackQuery, callback_data: 
     subject = callback_data.get('subject')
 
     data = {
-        'english_word': english
+        'word': english
     }
-    response_json = client.get_russian_word(data)
+    response_json = client.get_translation(data)
 
     word_data = response_json.get('data')
 
-    list_russian_word = word_data.get('russian')
+    list_russian_word = word_data.get('translation')
 
     if len(list_russian_word) > 1:
         words = str(list_russian_word[0])
@@ -122,12 +122,12 @@ async def print_translation_to_english_word(call: CallbackQuery, callback_data: 
     data = {
         'page': page
     }
-    response_json = client.get_english_word(data)
+    response_json = client.get_word(data)
     max_limit = response_json.get('total_records', None)
 
     word_data = response_json['data'][0]
 
-    word = word_data.get('word')
+    word = word_data.get('name')
     transcription = word_data.get('transcription')
 
     text, markup_keyboard = create_message(word, transcription, page, max_limit)

@@ -23,8 +23,11 @@ class BackendClient:
     def ping(self):
         return self.get(request_postfix='/ping', json_data={})
 
-    def get_english_word(self, json_data):
-        return self.get(request_postfix='/v1/english', json_data=json_data)
+    def get_word(self, json_data):
+        return self.get(request_postfix='/v1/word', json_data=json_data)
 
-    def get_russian_word(self, json_data):
-        return self.get(request_postfix='/v1/russian', json_data=json_data)
+    def get_word_by_subject(self, json_data):
+        return self.get(request_postfix='/v1/word_by_subject', json_data=json_data)
+
+    def get_translation(self, json_data):
+        return self.get(request_postfix='/v1/translation', json_data=json_data)
