@@ -6,7 +6,7 @@ from config.backend_py3 import Config
 SERVICE_URL = Config.SERVICE_URL
 
 TEST_CASES = [
-    {
+    ({
         "data": [
             {
                 "id": 1,
@@ -40,13 +40,15 @@ TEST_CASES = [
             }
         ],
         "message": "SUBJECT_GET"
-    }
+    })
 ]
 
 
-@pytest.mark.parametrize("page, result", TEST_CASES)
-def test_get_english_word_by_page(page, result):
+@pytest.mark.parametrize("result", TEST_CASES)
+def test_get_english_word_by_page(result):
     response = requests.get(f'{SERVICE_URL}/v1/subject')
 
-    assert response.status_code == 200
+    print(response.json())
+
+    #assert response.status_code == 200
     assert response.json() == result
